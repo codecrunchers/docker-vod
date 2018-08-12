@@ -52,6 +52,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 
 # Set up config file
 COPY ./nginx.kepler.conf /etc/nginx/nginx.conf
+COPY ./crossdomain.xml /usr/local/nginx/html/crossdomain.xml
+
 VOLUME ["/data"]
 
 EXPOSE 1935
