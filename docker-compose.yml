@@ -5,7 +5,7 @@ services:
   rtsp-client:
       image: jrottenberg/ffmpeg
       restart: always
-      command: ["-i", "rtsp://192.168.1.5:8554/unicast", "-stats", "-an",  "-vcodec", "copy" ,"-f", "flv",  "-rtmp_live", "recorded", "rtmp://media-server/show/stream"]
+      command: ["-i", "rtsp://192.168.1.5:8554/unicast", "-stats", "-an",  "-vcodec", "copy" ,"-f", "flv",  "-rtmp_live", "recorded", "rtmp://media-server/show/picamdocker"]
       depends_on:
          - media-server
       networks:
