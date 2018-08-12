@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  rtsp-client:
+      image: jrottenberg/ffmpeg
+      restart: always
+      command: ["-i", "rtsp://192.168.1.5:8554/unicast", "-stats", "-an",  "-vcodec", "copy" ,"-f", "flv",  "-rtmp_live", "recorded", "rtmp://media-server/show/stream"]
+      depends_on:
+         - media-server
+      networks:
+        - vms
+
+  media-server:
+      build: nginx-vms
+      ports:
+        - "1935:1935"
+        - "8080:8080"
+      volumes:
+      - /tmp/data:/data
+      networks:
+        - vms
+
+
+networks:
+  vms:
+

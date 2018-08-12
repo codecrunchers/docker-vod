@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  rtsp-client:
+      image: jrottenberg/ffmpeg
+      restart: always
+      command: ["-i", "rtsp://192.168.1.5:8554/unicast", "-stats", "-an",  "-vcodec", "copy" ,"-f", "flv",  "-rtmp_live", "recorded", "rtmp://media-server:1935/live/picam"]
+      depends_on:
+         - media-server
+      networks:
+        - vms
+      deploy:
+        mode: replicated
+        replicas: 1
+        resources:
+          limits:
+            cpus: '0.25'
+            memory: 512M
+          reservations:
+            cpus: '0.25'
+            memory: 256M
+        restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
+
+
+  media-server:
+      build: nginix-vms
+      ports:
+        - "1935:1935"
+      volumes:
+      - /tmp/hls:/data
+      networks:
+        - vms
+
+
+networks:
+  vms:
+
