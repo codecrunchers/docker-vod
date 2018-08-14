@@ -54,7 +54,9 @@ COPY scripts/*.sh /scripts/
 
 # Set up config file
 COPY ./nginx.kepler.conf /etc/nginx/nginx.conf
-COPY ./crossdomain.xml /usr/local/nginx/html/crossdomain.xml
+COPY ./crossdomain.xml /usr/local/nginx/html/
+COPY ./stats.xsl /usr/local/nginx/html/
+
 
 VOLUME ["/data"]
 

@@ -13,7 +13,7 @@ services:
 
   rtsp-client:
     build: rtsp-client
-    restart: on-failure
+    restart: always
     depends_on:
       - media-server
     volumes:
