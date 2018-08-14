@@ -10,7 +10,10 @@ services:
        - /tmp/data/:/data # Move away from shared share - use volume containers
        - /tmp/logs:/logs
       restart: on-failure
-
+      environment:
+       - CIDR="10.50.14.1/22"
+       - MAC_ID="00:02:D1"
+      entrypoint: ["/bin/true"]
 
   rtsp-client:
     build: rtsp-client
