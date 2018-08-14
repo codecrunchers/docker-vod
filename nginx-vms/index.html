@@ -1,0 +1,35 @@
+<html>
+<head>
+<script src="dash.js"></script>
+
+        <script>
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            function startVideo() {
+                var vars = getUrlVars(),
+                    url = "http://192.168.100.107:80/dash/Screen.mpd",
+                    video,
+                    context,
+                    player;
+                if (vars && vars.hasOwnProperty("url")) {
+                    url = vars.url;
+                }
+                video = document.querySelector(".dash-video-player video");
+                context = new Dash.di.DashContext();
+                player = new MediaPlayer(context);
+                player.startup();
+                player.attachView(video);
+                player.setAutoPlay(true);
+                player.attachSource(url);
+            }
+        </script>
+</head>
+<body>
+    <div class=".dash-video-player video"/>
+</body>
+</html>

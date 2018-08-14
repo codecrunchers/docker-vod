@@ -2,6 +2,7 @@
 FROM buildpack-deps:stretch
 
 LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
+LABEL maintainer="Alan Ryan <kepler@jet.com>"
 
 # Versions of Nginx and nginx-rtmp-module to use
 ENV NGINX_VERSION nginx-1.15.0
@@ -47,15 +48,17 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
     rm -rf /tmp/build
 
 # Forward logs to Docker
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log && \
-    mkdir /scripts
+RUN mkdir /scripts
 COPY scripts/*.sh /scripts/
 
 # Set up config file
 COPY ./nginx.kepler.conf /etc/nginx/nginx.conf
-COPY ./crossdomain.xml /usr/local/nginx/html/
+#COPY ./crossdomain.xml /usr/local/nginx/html/
 COPY ./stats.xsl /usr/local/nginx/html/
+#COPY ./dash.js /usr/local/nginx/html/
+#COPY ./index.html /usr/local/nginx/html/
+
+
 
 
 VOLUME ["/data"]

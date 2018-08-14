@@ -7,7 +7,8 @@ services:
       privileged: true
       network_mode: host
       volumes:
-       - /tmp/data/:/data
+       - /tmp/data/:/data # Move away from shared share - use volume containers
+       - /tmp/logs:/logs
       restart: on-failure
 
 
@@ -17,7 +18,8 @@ services:
     depends_on:
       - media-server
     volumes:
-       - /tmp/data/:/data
+       - /tmp/data:/data
+       - /tmp/logs:/logs
     networks:
       - vms
 
@@ -28,6 +30,7 @@ services:
       - "8080:8080"
     volumes:
       - /tmp/data:/data
+      - /tmp/logs:/logs
     networks:
       - vms
 
