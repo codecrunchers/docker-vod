@@ -8,9 +8,28 @@ services:
       network_mode: host
       volumes:
        - /tmp/data/:/data
+      restart: on-failure
 
 
+  rtsp-client:
+    build: rtsp-client
+    restart: on-failure
+    depends_on:
+      - media-server
+    volumes:
+       - /tmp/data/:/data
+    networks:
+      - vms
 
+  media-server:
+    build: nginx-vms
+    ports:
+      - "1935:1935"
+      - "8080:8080"
+    volumes:
+      - /tmp/data:/data
+    networks:
+      - vms
 
 networks:
   vms:
