@@ -5,4 +5,6 @@
 * Playback Dash Cli sudo MP4Client /tmp/data/dash/dashstreampi.mpd  (if vol is mounted to /tmp/data)
  sudo MP4Client http://192.168.1.4:8080/dash/dashstreampi.mpd
 *  Remove Append from Discovery Service Script
+*  SSL NEeded
+*  * Docker Secrets
 
