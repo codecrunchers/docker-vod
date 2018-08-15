@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+    vsplunk:
+        image: busybox
+    volumes:
+        - /opt/splunk/etc
+        - /opt/splunk/var
+
+    splunk:
+        hostname: splunk
+        image: outcoldman/splunk:6.2-light
+        volumes_from:
+            - vsplunk
+        ports:
+            - 8000:8000
+            - 9997:9997
+        expose:
+            - 9997
+        restart: always
+
+
+    forwarder:
+        image: outcoldman/splunk:6.2-forwarder
+    environment:
+        - SPLUNK_FORWARD_SERVER=localhost:9997
+    volumes_from:
+        - vforwarder
+        - vlogs
+    ports:
+        - 514:1514/udp
+    restart: always

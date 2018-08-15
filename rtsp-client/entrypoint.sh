@@ -19,12 +19,12 @@ if [[ $MAC_ID =~ "00_02_D1" ]]; then #VIVOTEK
     URI="rtsp://root:kepler123@$IP:554/live.sdp"
 elif [[ $MAC_ID =~ "B8_27_EB" ]]; then #RASPBERRY PI
     URI="rtsp://$IP:8554/unicast"
-elif [[ $MAC_ID =~ "AA_CC_8E" ]]; then #AXIS
+elif [[ $MAC_ID =~ "AC_CC_8E" ]]; then #AXIS
     URI="rtsp://root:kepler123@$IP:554/axis-media/media.amp"
 else
     exit 2
 fi
-
+flock -u 200
 ffmpeg -i "$URI" -stats -an -vcodec copy -f flv -s 32x32 -rtmp_live recorded "rtmp://media-server/hlspub/$MAC_ID"
 
 echo "{\"date"\:\"$(date)\","service\":\"rtsp-client\",\"StreamName\":\"$MAC_ID\",\"src\":\"$IP\",\"action\":\"stream comsume end\"}" \

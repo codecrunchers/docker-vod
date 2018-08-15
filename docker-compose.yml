@@ -2,13 +2,19 @@ version: '3'
 
 services:
 
+  vvms:
+      build: volume-manager
+      volumes:
+        - vm-data:/data
+        - vm-logs:/logs
+
   discovery-service:
       build: discovery-service
       privileged: true
       network_mode: host
       volumes:
-       - /tmp/data/:/data # Move away from shared share - use volume containers
-       - /tmp/logs:/logs
+        - vm-data:/data
+        - vm-logs:/logs
       restart: on-failure
       environment:
        - CIDR="10.50.14.1/22"
@@ -21,8 +27,8 @@ services:
     depends_on:
       - media-server
     volumes:
-       - /tmp/data:/data
-       - /tmp/logs:/logs
+      - vm-data:/data
+      - vm-logs:/logs
     networks:
       - vms
 
@@ -32,10 +38,14 @@ services:
       - "1935:1935"
       - "8080:8080"
     volumes:
-      - /tmp/data:/data
-      - /tmp/logs:/logs
+      - vm-data:/data
+      - vm-logs:/logs
     networks:
       - vms
+
+volumes:
+  vm-logs:
+  vm-data:
 
 networks:
   vms:

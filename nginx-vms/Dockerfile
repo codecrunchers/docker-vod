@@ -58,11 +58,5 @@ COPY ./stats.xsl /usr/local/nginx/html/
 #COPY ./dash.js /usr/local/nginx/html/
 #COPY ./index.html /usr/local/nginx/html/
 
-
-
-
-VOLUME ["/data"]
-
-
 EXPOSE 1935
 CMD ["nginx", "-g", "daemon off;"]
