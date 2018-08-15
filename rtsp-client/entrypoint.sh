@@ -31,5 +31,5 @@ echo "{\"date"\:\"$(date)\","service\":\"rtsp-client\",\"StreamName\":\"$MAC_ID\
     >> /logs/vms/rtsp-client.log
 
 #Push Feed back to db for next client to consume - tmp workaround
-echo "$IP $MAC_ID" >> /data/cameras.txt
+#echo "$IP $MAC_ID" >> /data/cameras.txt
 
