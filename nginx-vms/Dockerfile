@@ -4,6 +4,13 @@ FROM buildpack-deps:stretch
 LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
 LABEL maintainer="Alan Ryan <kepler@jet.com>"
 
+# Set one or more individual labels
+LABEL vendor1="Kepler ACME Incorporated"
+LABEL vendor2=ZENITH\ Incorporated
+LABEL com.example.release-date="2015-02-12"
+LABEL com.example.version.is-production=""
+
+
 # Versions of Nginx and nginx-rtmp-module to use
 ENV NGINX_VERSION nginx-1.15.0
 ENV NGINX_RTMP_MODULE_VERSION dev
@@ -47,16 +54,18 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
     mkdir /var/lock/nginx && \
     rm -rf /tmp/build
 
-# Forward logs to Docker
-RUN mkdir /scripts
-COPY scripts/*.sh /scripts/
 
-# Set up config file
+RUN groupadd -r nginx && useradd -m --no-log-init -r -g nginx nginx
 COPY ./nginx.kepler.conf /etc/nginx/nginx.conf
-#COPY ./crossdomain.xml /usr/local/nginx/html/
-COPY ./stats.xsl /usr/local/nginx/html/
-#COPY ./dash.js /usr/local/nginx/html/
-#COPY ./index.html /usr/local/nginx/html/
 
-EXPOSE 1935
+EXPOSE 8080
+RUN mkdir /home/nginx/scripts
+COPY scripts/*.sh /home/nginx/scripts/
+COPY ./stats.xsl /home/nginx
+RUN chown nginx:nginx /home/nginx/stats.xsl
+COPY entrypoint.sh /usr/local/bin/
+RUN ln -s usr/local/bin/entrypoint.sh / #sh backwards compat
+VOLUME  /home/nginx/data
+VOLUME /home/nginx/logs
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
