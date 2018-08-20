@@ -45,6 +45,12 @@ spec:
             name: rtsp-client-data-volume
         command: ["/bin/sh"]
         args: ["-c","echo \"192.168.1.5!AA:AA:AA:AA:AA:AA\" > /data/cameras.txt"]
+#      - image: busybox
+#        tag: 0.1
+#        name: init-ping
+#        imagePullPolicy: Never
+#        command: ["/bin/sh"]
+#        args: ["-c","ping -W 5 -c 5 192.168.1.5"]
       containers:
       - image: kepler/rtsp-client:stable
         imagePullPolicy: Never
