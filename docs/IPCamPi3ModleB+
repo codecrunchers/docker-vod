@@ -1,0 +1,89 @@
+
+ echo "192.168.1.1\!B8_27_EB_E2_20_39\!EMPTY" | sudo tee /var/lib/docker/volumes/cc-vms-docker_vm-data/_data/cameras.txt
+DEBUG
+==
+more /etc/systemd/system/uv4l_raspicam.service
+
+
+ systemctl status  RTSP-Server
+
+ service uv4l_raspicam restart
+more /etc/nginx/sites-enabled/RaspberryIPCamera.Nginx.Siteconf 
+/var/log/nginx/*
+
+
+
+more /etc/systemd/system/RTSP-Server.service
+sudo systemctl disable RTSP-Server.service
+
+/etc/uv4l/uv4l-raspicam.conf
+/var/log/RaspberryIPCamera.log 
+
+
+sudo systemctl disable wpa_supplicant
+
+sudo vim /boot/config.txt 
+
+==
+
+pi@raspberrypi:~ $ sudo apt install -y git
+
+sudo apt update
+sudo apt upgrade
+sudo apt update
+wget -O /home/pi/RaspberryIPCamera.zip https://github.com/ronnyvdbr/RaspberryIPCamera/archive/v1.7-beta.zip
+unzip /home/pi/RaspberryIPCamera.zip -d /home/pi
+rm /home/pi/RaspberryIPCamera.zip
+mv /home/pi/RaspberryIPCamera* /home/pi/RaspberryIPCamera
+
+########################################################################################
+# Set-up nginx with php support and enable our Raspberry IP Camera website.
+########################################################################################
+# Install nginx with php support.
+sudo apt-get -y install nginx php-fpm
+# Disable the default nginx website.
+sudo rm /etc/nginx/sites-enabled/default
+# Copy our siteconf into place
+sudo cp /home/pi/RaspberryIPCamera/DefaultConfigFiles/RaspberryIPCamera.Nginx.Siteconf /etc/nginx/sites-available/RaspberryIPCamera.Nginx.Siteconf
+# Lets enable our website
+sudo ln -s /etc/nginx/sites-available/RaspberryIPCamera.Nginx.Siteconf /etc/nginx/sites-enabled/RaspberryIPCamera.Nginx.Siteconf
+# Disable output buffering in php.
+sudo sed -i 's/output_buffering = 4096/;output_buffering = 4096/g' /etc/php/7.0/fpm/php.ini
+# Set permissions for the config files
+sudo chgrp www-data /home/pi/RaspberryIPCamera/www/RaspberryIPCameraSettings.ini
+chmod 664 /home/pi/RaspberryIPCamera/www/RaspberryIPCameraSettings.ini
+sudo chgrp www-data /home/pi/RaspberryIPCamera/secret/RaspberryIPCamera.secret
+chmod 664 /home/pi/RaspberryIPCamera/secret/RaspberryIPCamera.secret
+
+https://www.linux-projects.org/uv4l/installation/
+
+to  sudo rpi-update
+
+*h264_v4l2_rtspserver*
+
+    sudo apt-get -y install cmake libv4l-dev liblivemedia-dev liblog4cpp5-dev
+    git clone https://github.com/mpromonet/h264_v4l2_rtspserver.git
+    cd h264_v4l2_rtspserver/
+    cmake . && make
+    cpack .
+    sudo dpkg -i h264_v4l2_rtspserver*.deb
+
+
+
+change php7 for fastcgi
+uvrl4 not runnnig
+
+
+https://random-notes-of-a-sysadmin.blogspot.com/search?q=raspberry
+sudo apt update
+
+
+
+Back to
+
+sudo cp /home/pi/RaspberryIPCamera/DefaultConfigFiles/RTSP-Server.service /etc/systemd/system/RTSP-Server.service
+
+https://github.com/ronnyvdbr/RaspberryIPCamera/blob/master/installation.sh
+
+
+sudo install ntp
