@@ -17,7 +17,7 @@ ENV NGINX_RTMP_MODULE_VERSION dev
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y ca-certificates openssl libssl-dev unzip && \
+    apt-get install -y ca-certificates openssl libssl-dev unzip ffmpeg && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and decompress Nginx
@@ -61,8 +61,8 @@ COPY ./nginx.kepler.conf /etc/nginx/nginx.conf
 EXPOSE 8080
 RUN mkdir /home/nginx/scripts
 COPY scripts/*.sh /home/nginx/scripts/
-COPY ./stats.xsl /home/nginx
-RUN chown nginx:nginx /home/nginx/stats.xsl
+COPY ./stats.xsl /home/nginx/data/
+RUN chown nginx:nginx /home/nginx/data/stats.xsl
 COPY entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/entrypoint.sh / #sh backwards compat
 VOLUME  /home/nginx/data

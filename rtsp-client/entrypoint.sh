@@ -21,7 +21,7 @@ echo "{\"date\":\"$(date)\",\"service\":\"rtsp-client\",\"StreamName\":\"$MAC_ID
 if [[ $MAC_ID =~ "00_02_D1" ]]; then #VIVOTEK
     URI="rtsp://USER:PASS$IP:554/live.sdp"
 elif [[ $MAC_ID =~ "B8_27_EB" ]]; then #RASPBERRY PI
-    URI="rtsp://USER:PASS$IP:8554/unicast"
+    URI="rtsp://$IP:8554/unicast"
 elif [[ $MAC_ID =~ "AC_CC_8E" ]]; then #AXIS
     URI="rtsp://USER:PASS@$IP:554/axis-media/media.amp"
 else
@@ -31,7 +31,7 @@ echo "{\"date"\:\"$(date)\","service\":\"rtsp-client\",\"StreamName\":\"$MAC_ID\
 fi
 flock -u 200 #Release lock, we're done
 #Stream
-ffmpeg -i "$STREAM_URI" -stats -an -vcodec copy -f flv -s 32x32 -rtmp_live recorded "rtmp://media-server/hlspub/$MAC_ID"
+ffmpeg -i "$URI" -an -vcodec copy -f flv -s 1024x768 -rtmp_live recorded "rtmp://media-server/hlspub/$MAC_ID"
 #We're done - reflect that in logs & entry file for now
 echo "{\"date"\:\"$(date)\","service\":\"rtsp-client\",\"StreamName\":\"$MAC_ID\",\"src\":\"$IP\",\"action\":\"stream comsume end\"}" \
     >> /logs/vms/rtsp-client.log
