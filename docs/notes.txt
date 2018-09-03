@@ -1,0 +1,4 @@
+RTSP Lag on Pi Cam for Home Net 100MB Hub - 1-2seconds
+HLS Lag on Home Net 100MB Hub - 7-9seconds
+VOD Lag on Home Net 100MB Hub - 2seconds
+
